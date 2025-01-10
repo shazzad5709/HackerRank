@@ -17,7 +17,7 @@ int ms(int left, int right, vector<int> &b, vector<vector<int>> &dp)
   {
     int score;
     if (left == 1 && right == n + 1)
-      score = b[left - 1] * b[i] * b[right] + ms(left, i, b, dp) + ms(i + 1, right, b, dp);
+      score = b[i] + ms(left, i, b, dp) + ms(i + 1, right, b, dp);
     else
       score = b[left - 1] * b[right] + ms(left, i, b, dp) + ms(i + 1, right, b, dp);
 

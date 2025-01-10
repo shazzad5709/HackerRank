@@ -20,6 +20,7 @@ void dfs(int node, int parent)
   {
     if (adj[node][i] == -1)
       continue;
+
     int neighbor = i;
     if (dfsvisited[neighbor])
     {
@@ -40,9 +41,7 @@ void dfs(int node, int parent)
       }
     }
     else if (!dfsvisited[neighbor])
-    {
       dfs(neighbor, node);
-    }
   }
   dfsvisited[node] = 0;
   sum[node] = 0;
@@ -52,12 +51,9 @@ int main()
 {
   cin >> n >> m;
   for (int i = 0; i <= n; i++)
-  {
     for (int j = 0; j <= n; j++)
-    {
       adj[i][j] = -1;
-    }
-  }
+
   for (int i = 0; i < m; i++)
   {
     int u, v;
@@ -66,15 +62,11 @@ int main()
   }
 
   for (int i = 1; i <= n; i++)
-  {
     if (!visited[i])
       dfs(i, 0);
-  }
 
   for (int i = 0; i < cycleLen; i++)
-  {
     cout << ans[i] << " ";
-  }
   cout << endl;
 
   return 0;

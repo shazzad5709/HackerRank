@@ -96,13 +96,22 @@ int main()
     }
   }
 
+  int low = 0;
+  int high = N - 1;
   int answer = -1;
-  for (int d = 0; d < N; d++)
+
+  while (low <= high)
   {
-    if (canReachGoalBFS(grid, N, M, d))
+    int mid = low + (high - low) / 2;
+
+    if (canReachGoalBFS(grid, N, M, mid))
     {
-      answer = d;
-      break;
+      answer = mid;
+      high = mid - 1;
+    }
+    else
+    {
+      low = mid + 1;
     }
   }
 

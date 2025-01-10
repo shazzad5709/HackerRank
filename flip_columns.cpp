@@ -27,7 +27,6 @@ int main()
     int c = 0;
     for (int cell : it.first)
     {
-
       c += (cell == '0');
     }
 

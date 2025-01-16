@@ -6,14 +6,8 @@ using namespace std;
 
 bool canReachGoalBFS(const vector<vector<int>> &grid, int n, int m, int d)
 {
-  if (n == 0 || m == 0)
-    return false;
-
   int startR = n - 1;
   int startC = 0;
-
-  if (grid[startR][startC] == 0)
-    return false;
 
   vector<vector<bool>> vis(n, vector<bool>(m, false));
   vis[startR][startC] = true;

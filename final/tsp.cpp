@@ -36,15 +36,11 @@ int main()
     vector<vector<int>> grid(n, vector<int>(n, 0));
 
     for (int i = 0; i < n; i++)
-    {
       for (int j = 0; j < n; j++)
-      {
         cin >> grid[i][j];
-      }
-    }
 
     vector<vector<int>> dp(n, vector<int>(1 << n, -1));
 
-    cout << tsp(0, 1, dp, grid, n) << endl; // check the call
+    cout << tsp(0, 1, dp, grid, n) << endl;
   }
 }

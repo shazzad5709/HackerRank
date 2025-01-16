@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 #include <vector>
 #include <queue>
 
@@ -10,10 +11,9 @@ int main()
   cin >> T;
   for (int t = 1; t <= T; t++)
   {
-    int ans = 0;
-
     int n;
     cin >> n;
+
     vector<vector<int>> grid(n, vector<int>(5, 0));
 
     for (int i = 0; i < n; i++)
@@ -21,20 +21,22 @@ int main()
         cin >> grid[i][j];
 
     queue<vector<int>> q;
+    int ans = 0, score, bomb, r, c;
 
-    q.push({0, n, 2, -1}); // score, row, column, bomb_used
+    q.push({0, n, 2, -1});
 
-    while (!q.empty())
+    while (!q.empty() && ans != -1)
     {
       auto it = q.front();
-      int s = it[0];
-      int r = it[1];
-      int c = it[2];
-      int b = it[3];
+
+      score = it[0];
+      r = it[1];
+      c = it[2];
+      bomb = it[3];
 
       q.pop();
 
-      ans = max(ans, s);
+      ans = max(ans, score);
 
       for (int i = -1; i <= 1; i++)
       {
@@ -46,15 +48,20 @@ int main()
 
         if (grid[nr][nc] <= 1)
         {
-          if (b == -1 || b - nr <= 4)
-            q.push({s + grid[nr][nc], nr, nc, b});
+          if (bomb == -1 || bomb - nr <= 4)
+            q.push({score + grid[nr][nc], nr, nc, bomb});
         }
         else
         {
-          if (b == -1)
-            q.push({s, nr, nc, nr});
-          else if (b - nr <= 4)
-            q.push({s, nr, nc, b});
+          if (bomb == -1)
+            q.push({score, nr, nc, nr});
+          else if (bomb - nr <= 4)
+            q.push({score, nr, nc, bomb});
+          else if (ans == 0)
+          {
+            ans = -1;
+            break;
+          }
         }
       }
     }

@@ -1,80 +1,89 @@
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <climits>
+#include <queue>
 #include <algorithm>
+
 using namespace std;
 
-void printCycle(vector<int> &parent, int start, int end)
+void printCycle(const vector<int> &parents, int start, int end)
 {
   vector<int> cycle;
   int current = start;
   while (current != end)
   {
     cycle.push_back(current);
-    current = parent[current];
+    current = parents[current];
   }
   cycle.push_back(end);
+
+  sort(cycle.begin(), cycle.end());
+
   for (int node : cycle)
-  {
     cout << node << " ";
-  }
+
   cout << endl;
 }
 
-bool dfs(int node, vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &inStack, vector<int> &parent)
+bool dfs(int node, const vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &dfsvisited, vector<int> &parents)
 {
   visited[node] = true;
-  inStack[node] = true;
+  dfsvisited[node] = true;
 
   for (int neighbor : adj[node])
   {
     if (!visited[neighbor])
     {
-      parent[neighbor] = node;
-      if (dfs(neighbor, adj, visited, inStack, parent))
-      {
+      parents[neighbor] = node;
+      if (dfs(neighbor, adj, visited, dfsvisited, parents))
         return true;
-      }
     }
-    else if (inStack[neighbor])
+    else if (dfsvisited[neighbor])
     {
-      printCycle(parent, node, neighbor);
+      printCycle(parents, node, neighbor);
       return true;
     }
   }
 
-  inStack[node] = false;
+  dfsvisited[node] = false;
   return false;
 }
 
 int main()
 {
-  int N, M;
-  cin >> N >> M;
-
-  vector<vector<int>> adj(N + 1); // adjacency list
-  for (int i = 0; i < M; i++)
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  int T;
+  cin >> T;
+  while (T--)
   {
-    int u, v;
-    cin >> u >> v;
-    adj[u].push_back(v);
-  }
+    int n, m;
+    cin >> n >> m;
 
-  vector<bool> visited(N + 1, false);
-  vector<bool> inStack(N + 1, false);
-  vector<int> parent(N + 1, -1);
+    vector<vector<int>> adj(n + 1);
+    vector<bool> visited(n + 1, false);
+    vector<bool> dfsvisited(n + 1, false);
+    vector<int> parents(n + 1, -1);
 
-  for (int i = 1; i <= N; i++)
-  {
-    if (!visited[i])
+    for (int i = 0; i < m; i++)
     {
-      if (dfs(i, adj, visited, inStack, parent))
+      int u, v;
+      cin >> u >> v;
+      adj[u].push_back(v);
+    }
+
+    int flag = false;
+
+    for (int i = 1; i <= n; i++)
+    {
+      if (dfs(i, adj, visited, dfsvisited, parents))
       {
-        return 0; // A cycle was found and printed
+        flag = true;
+        break;
       }
     }
-  }
 
-  cout << 0 << endl; // No cycle found
-  return 0;
+    if (!flag)
+      cout << "0" << endl;
+  }
 }

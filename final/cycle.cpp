@@ -76,10 +76,13 @@ int main()
 
     for (int i = 1; i <= n; i++)
     {
-      if (dfs(i, adj, visited, dfsvisited, parents))
+      if (!visited[i])
       {
-        flag = true;
-        break;
+        if (dfs(i, adj, visited, dfsvisited, parents))
+        {
+          flag = true;
+          break;
+        }
       }
     }
 

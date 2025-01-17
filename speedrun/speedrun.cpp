@@ -8,14 +8,18 @@ using namespace std;
 
 int main()
 {
-  int T;
-  cin >> T;
-  for (int t = 1; t <= T; t++)
-  {
-    int n;
-    cin >> n;
-    vector<vector<int>> grid(n, vector<int>(n, 0));
+  int k;
+  cin >> k;
+  string s;
+  cin >> s;
 
-    cout << "#" << t << " " << ans << endl;
+  int l = -1;
+  int sum = 0;
+  int n = s.length();
+
+  for (char ch : s)
+  {
+    if (ch == '(')
+      l++;
   }
 }
